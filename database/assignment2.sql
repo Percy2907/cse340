@@ -13,11 +13,11 @@ VALUES (
 -- Modify Tony Stark’s account_type to "Admin"
 UPDATE account
 SET account_type = 'Admin'
-WHERE email = 'tony@starkent.com';
+WHERE account_email = 'tony@starkent.com';
 
 -- Delete the Tony Stark record from the database
 DELETE FROM account
-WHERE email = 'tony@starkent.com';
+WHERE account_email = 'tony@starkent.com';
 
 -- Modify the "GM Hummer" record to read 
 -- "a huge interior" instead of "small interiors"

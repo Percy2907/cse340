@@ -1,8 +1,6 @@
+-- Create client_type data type
 CREATE TYPE public.account_type AS ENUM
     ('Client', 'Employee', 'Admin');
-
-ALTER TYPE public.account_type
-    OWNER TO cse340_database_9u2z_user;
 
 
 --Table structure for table 'classification'
@@ -48,9 +46,13 @@ CREATE TABLE IF NOT EXISTS public.account
     CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 
-
-7
-
+-- Data for table 'classification'
+INSERT INTO public.classification (classification_name)
+VALUES ('Custom'),
+	('Sport'),
+	('SUV'),
+	('Truck'),
+	('Sedan');
 
 -- Data for table `inventory`
 
