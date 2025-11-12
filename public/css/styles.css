@@ -48,18 +48,19 @@ body {
 nav {
   margin-top: 10px;
   background-color: #000;
-  color: white;
   padding: 10px 0;
 }
 
 nav ul {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: space-around;
 }
-
+nav ul li a{
+  color: white
+}
 /* ****** Hero ****** */
 .hero {
   width: 100%;
