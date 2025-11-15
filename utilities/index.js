@@ -24,16 +24,6 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-/* ****************************************
- * Middleware For Handling Errors
- * Wrap other function in this for 
- * General Error Handling
- **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
-
-module.exports = Util
-
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
@@ -66,3 +56,67 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+Util.buildVehicleGrid = async function (data) {
+  let grid = "";
+  console.log(data);
+
+  if (data.length > 0) {
+    const vehicle = data[0];
+
+    // Format price and miles
+    const price = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD"
+    }).format(vehicle.inv_price);
+
+    const miles = new Intl.NumberFormat("en-US").format(vehicle.inv_miles);
+
+    grid = `
+      <section class="vehicle-detail">
+
+        <h1 class="vehicle-title">${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
+
+        <div class="vehicle-detail-container">
+
+          <div class="vehicle-image">
+            <img src="${vehicle.inv_image}" 
+                 alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}" />
+          </div>
+
+          <div class="vehicle-info">
+            <h2>Details</h2>
+
+            <p class="vehicle-price"><strong>Price:</strong> ${price}</p>
+            <p class="vehicle-miles"><strong>Mileage:</strong> ${miles} miles</p>
+
+            <p class="vehicle-description">
+              ${vehicle.inv_description}
+            </p>
+
+            <ul class="vehicle-specs">
+              <li><strong>Color:</strong> ${vehicle.inv_color}</li>
+              <li><strong>Model:</strong> ${vehicle.inv_model}</li>
+              <li><strong>Make:</strong> ${vehicle.inv_make}</li>
+              <li><strong>Year:</strong> ${vehicle.inv_year}</li>
+              <li><strong>Vehicle ID:</strong> ${vehicle.inv_id}</li>
+            </ul>
+
+          </div>
+
+        </div>
+      </section>
+    `;
+  }
+
+  return grid;
+};
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+module.exports = Util
