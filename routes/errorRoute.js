@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const errorController = require("../controllers/errorController");
-const utilities = require("../utilities");
+const utilities = require("../utilities/");
 
-router.get("/trigger", utilities.handleErrors(errorController.throwError));
+router.get(
+  "/trigger",
+  utilities.handleErrors(errorController.throwError)
+);
 
 module.exports = router;
