@@ -22,13 +22,13 @@
 <form id="registerForm" action="/account/register" method="post">
   <fieldset>
     <label for="firstname">First name:</label>
-    <input type="text" name="account_firstname" id="firstname" size="10" required>
+    <input type="text" name="account_firstname" id="accountFirstname" required value="<%= locals.account_firstname %>">
 
     <label for="lastname">Last name:</label>
-    <input type="text" name="account_lastname" id="lastname" required>
+    <input type="text" name="account_lastname" id="accountLastname" required value="<%= locals.account_lastname %>">
 
     <label for="email">Email Address:</label>
-    <input type="email" name="account_email" id="email" required>
+    <input type="email" name="account_email" id="accountEmail" required value="<%= locals.account_email %>">
 
     <label for="password">Password:</label>
     <input 
@@ -49,8 +49,8 @@
 </form>
   </section>
 </main>
+
 <script>
-  // Show/Hide Password
   const pswdBtn = document.getElementById('pswdBtn');
   const passwordInput = document.getElementById('password');
 
@@ -63,5 +63,4 @@
       pswdBtn.textContent = 'Show Password';
     }
   });
-
 </script>
