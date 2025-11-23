@@ -1,0 +1,291 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+  <% }) %>
+  </ul>
+<% } %>
+
+<form id="addInventoryForm" action="/inv/add-inventory" method="post">
+  <fieldset class="blue-fieldset">
+    <p class="field-required">ALL FIELDS ARE REQUIRED.</p>
+    
+    <label for="classificationList">Classification</label>
+    <%- classificationList %>
+    <span id="classificationError" class="field-error"></span>
+    
+    <label for="invMake">Make</label>
+    <input 
+      type="text" 
+      id="invMake" 
+      name="inv_make"
+      placeholder="Min of 3 characters"
+      value="<%= locals.inv_make || '' %>"
+    >
+    <span id="makeError" class="field-error"></span>
+    
+    <label for="invModel">Model</label>
+    <input 
+      type="text" 
+      id="invModel" 
+      name="inv_model"
+      placeholder="Min of 3 characters"
+      value="<%= locals.inv_model || '' %>"
+    >
+    <span id="modelError" class="field-error"></span>
+    
+    <label for="invDescription">Description</label>
+    <textarea 
+      id="invDescription" 
+      name="inv_description"
+      rows="4"
+    ><%= locals.inv_description || '' %></textarea>
+    <span id="descriptionError" class="field-error"></span>
+    
+    <label for="invImage">Image Path</label>
+    <input 
+      type="text" 
+      id="invImage" 
+      name="inv_image"
+      value="<%= locals.inv_image || '/images/vehicles/no-image.png' %>"
+    >
+    <span id="imageError" class="field-error"></span>
+    
+    <label for="invThumbnail">Thumbnail Path</label>
+    <input 
+      type="text" 
+      id="invThumbnail" 
+      name="inv_thumbnail"
+      value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"
+    >
+    <span id="thumbnailError" class="field-error"></span>
+    
+    <label for="invPrice">Price</label>
+    <input 
+      type="number" 
+      id="invPrice" 
+      name="inv_price"
+      step="0.01" 
+      placeholder="decimal or integer"
+      value="<%= locals.inv_price || '' %>"
+    >
+    <span id="priceError" class="field-error"></span>
+    
+    <label for="invYear">Year</label>
+    <input 
+      type="number" 
+      id="invYear" 
+      name="inv_year"
+      placeholder="4-digit year"
+      value="<%= locals.inv_year || '' %>"
+    >
+    <span id="yearError" class="field-error"></span>
+    
+    <label for="invMiles">Miles</label>
+    <input 
+      type="number" 
+      id="invMiles" 
+      name="inv_miles"
+      placeholder="digits only"
+      value="<%= locals.inv_miles || '' %>"
+    >
+    <span id="milesError" class="field-error"></span>
+    
+    <label for="invColor">Color</label>
+    <input 
+      type="text" 
+      id="invColor" 
+      name="inv_color"
+      value="<%= locals.inv_color || '' %>"
+    >
+    <span id="colorError" class="field-error"></span>
+    
+    <input type="submit" value="Add Vehicle" class="submit-btn">
+  </fieldset>
+</form>
+
+<script>
+  const form = document.querySelector("#addInventoryForm");
+  const currentYear = new Date().getFullYear();
+  
+  const fields = {
+    classification: {
+      input: document.querySelector("#classificationList"),
+      error: document.getElementById("classificationError"),
+      validate: (value) => {
+        if (!value || value === "") {
+          return "• Please select a classification.";
+        }
+        return "";
+      }
+    },
+    make: {
+      input: document.getElementById("invMake"),
+      error: document.getElementById("makeError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Make is required.";
+        }
+        if (value.trim().length < 3) {
+          return "• Make must be at least 3 characters.";
+        }
+        return "";
+      }
+    },
+    model: {
+      input: document.getElementById("invModel"),
+      error: document.getElementById("modelError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Model is required.";
+        }
+        if (value.trim().length < 3) {
+          return "• Model must be at least 3 characters.";
+        }
+        return "";
+      }
+    },
+    description: {
+      input: document.getElementById("invDescription"),
+      error: document.getElementById("descriptionError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Description is required.";
+        }
+        return "";
+      }
+    },
+    image: {
+      input: document.getElementById("invImage"),
+      error: document.getElementById("imageError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Image path is required.";
+        }
+        return "";
+      }
+    },
+    thumbnail: {
+      input: document.getElementById("invThumbnail"),
+      error: document.getElementById("thumbnailError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Thumbnail path is required.";
+        }
+        return "";
+      }
+    },
+    price: {
+      input: document.getElementById("invPrice"),
+      error: document.getElementById("priceError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Price is required.";
+        }
+        const price = parseFloat(value);
+        if (isNaN(price)) {
+          return "• Price must be a valid number.";
+        }
+        if (price < 0) {
+          return "• Price must be a positive number.";
+        }
+        return "";
+      }
+    },
+    year: {
+      input: document.getElementById("invYear"),
+      error: document.getElementById("yearError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Year is required.";
+        }
+        const year = parseInt(value);
+        if (isNaN(year)) {
+          return "• Year must be a valid number.";
+        }
+        if (year < 1900 || year > currentYear + 1) {
+          return `• Year must be between 1900 and ${currentYear + 1}.`;
+        }
+        return "";
+      }
+    },
+    miles: {
+      input: document.getElementById("invMiles"),
+      error: document.getElementById("milesError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Miles is required.";
+        }
+        const miles = parseInt(value);
+        if (isNaN(miles)) {
+          return "• Miles must be a valid number.";
+        }
+        if (miles < 0) {
+          return "• Miles must be a positive number.";
+        }
+        return "";
+      }
+    },
+    color: {
+      input: document.getElementById("invColor"),
+      error: document.getElementById("colorError"),
+      validate: (value) => {
+        if (!value || value.trim() === "") {
+          return "• Color is required.";
+        }
+        return "";
+      }
+    }
+  };
+  
+  function validateField(fieldName) {
+    const field = fields[fieldName];
+    const value = field.input.value;
+    const errorMessage = field.validate(value);
+    
+    if (errorMessage) {
+      field.error.textContent = errorMessage;
+      field.input.classList.add("input-error");
+      return false;
+    } else {
+      field.error.textContent = "";
+      field.input.classList.remove("input-error");
+      return true;
+    }
+  }
+  
+  form.addEventListener("submit", function(event) {
+    let isValid = true;
+    
+    Object.keys(fields).forEach(fieldName => {
+      const field = fields[fieldName];
+      field.error.textContent = "";
+      field.input.classList.remove("input-error");
+    });
+    
+    Object.keys(fields).forEach(fieldName => {
+      if (!validateField(fieldName)) {
+        isValid = false;
+      }
+    });
+    
+    if (!isValid) {
+      event.preventDefault();
+
+      const firstError = document.querySelector(".input-error");
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+        firstError.focus();
+      }
+      return false;
+    }
+  });
+</script>

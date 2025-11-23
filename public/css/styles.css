@@ -2,7 +2,6 @@ html {
   box-sizing: border-box;
 }
 
-/******* Change Box Model ***************/
 *,
 *:before,
 *:after {
@@ -21,7 +20,9 @@ body {
   padding: 10px;
 }
 
-/* ******* Header ******** */
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
 #top-header {
   display: flex;
   justify-content: space-between;
@@ -43,8 +44,6 @@ body {
   font-size: 0.8em;
 }
 
-/******* Navigation Bar *******/
-
 nav {
   margin-top: 10px;
   background-color: #000;
@@ -58,10 +57,17 @@ nav ul {
   display: flex;
   justify-content: space-around;
 }
-nav ul li a{
-  color: white
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  display: block;
 }
-/* ****** Hero ****** */
+
+/* ========================================
+   HERO SECTION (HOME PAGE)
+   ======================================== */
 .hero {
   width: 100%;
   position: relative;
@@ -71,9 +77,12 @@ nav ul li a{
   margin-bottom: 20px;
 }
 
-.hero h1 {
-  font-size: 1.5em;
-  width: 100%;
+.image-bg-delorean {
+  width: 80%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 0;
 }
 
 .text-hover {
@@ -84,51 +93,49 @@ nav ul li a{
 }
 
 .feature-container {
-  color: blue;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 5px;
+  color: #007bff;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 5px;
 }
 
-.image-bg-delorean {
-  width: 80%;
-  height: auto;
-  display: block;
-  position: relative;
-  z-index: 0;
-}
 .feature-container h2 {
   margin: 0;
   font-size: 1.2em;
 }
+
 .feature-container ul {
   list-style: none;
   margin: 0;
   padding: 0;
   padding-bottom: 10px;
 }
+
 .feature-container ul li {
-  padding: 1px 0;
+  padding: 2px 0;
 }
 
 .own-today-button {
-  margin-top: 40px;
-  text-align: center;
   margin-top: 20px;
+  text-align: center;
 }
 
 .own-today-button img {
   width: 120px;
   height: auto;
+  cursor: pointer;
 }
 
-/* ***** Reviews Section ***** */
-.reviews-container {
-  width: 100%;
-  margin-bottom: 20px;
+/* ========================================
+   HOME CONTENT LAYOUT (REVIEWS & UPGRADES)
+   ======================================== */
+.reviews-container,
+.upgrades-container {
   padding: 20px 0;
 }
 
-.reviews-container h2 {
+.reviews-container h2,
+.upgrades-container h2 {
   margin: 0 0 20px 0;
   font-size: 1.2em;
 }
@@ -137,11 +144,11 @@ nav ul li a{
   margin: 0;
   padding-left: 0;
   list-style-position: inside;
+  list-style-type: disc;
 }
 
 .reviews-container ul li {
   margin-bottom: 10px;
-  padding-left: 0;
 }
 
 .reviews-container ul li span {
@@ -149,22 +156,12 @@ nav ul li a{
   left: -10px;
 }
 
-/* ***** Upgrades Section ***** */
-
-.upgrades-container {
-  padding: 20px 0;
-}
-
-.upgrades-container h2 {
-  margin: 0 0 20px 0;
-  font-size: 1.2em;
-}
-
 .upgrades-container > div {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   max-width: 500px;
+  margin: 0 auto;
 }
 
 .upgrades-container > div > div {
@@ -183,266 +180,26 @@ nav ul li a{
   align-items: center;
   aspect-ratio: 3 / 2;
   border: 2px solid black;
+  border-radius: 5px;
 }
 
 .container-img img {
   width: auto;
   max-width: 80%;
-  max-height: 800%;
+  max-height: 80%;
   object-fit: contain;
 }
 
 .upgrades-container a {
   text-decoration: underline;
-  color: blue;
+  color: #007bff;
   font-weight: bold;
   text-align: center;
 }
 
-/*Login*/
-
-.center-page {
-  display: flex;
-  justify-content: center;
-  align-items: center; /* centro vertical */
-  height: 100vh; /* pantalla completa */
-}
-
-.login-container {
-  text-align: center;
-  max-width: 400px;
-  width: 90%;
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.login-form input,
-.login-form button {
-  padding: 10px;
-  font-size: 1rem;
-}
-
-/*Register*/
-
-.register-container input:required:invalid,
-.register-container input:focus:invalid {
-  border: 2px solid red;
-  background-color: #ffe6e6; /* light red background */
-  outline: none;
-}
-
-/* Valid inputs */
-.register-container input:required:valid {
-  border: 2px solid green;
-  background-color: #e6ffe6; /* light green background */
-}
-
-/* Optional: show custom icons on the right */
-.register-container input:required:invalid {
-  background-image: url('../images/invalid.png');
-  background-position: right 10px center;
-  background-repeat: no-repeat;
-}
-
-.register-container input:required:valid {
-  background-image: url('../images/valid.png');
-  background-position: right 10px center;
-  background-repeat: no-repeat;
-}
-
-/* Password requirement info */
-.register-container div i {
-  display: block;
-  font-size: 0.85em;
-  color: #555;
-  margin: 5px 0 10px;
-  text-align: left;
-}
-
-
-/* Register Container */
-.register-container {
-  width: 100%;
-  max-width: 420px;
-  background: #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  text-align: center;
-}
-
-.center-page {
-  display: flex;
-  justify-content: center;  
-  align-items: center;    
-  min-height: 100vh;        
-  background-color: #f5f5f5;
-  padding: 20px;            
-  box-sizing: border-box;
-}
-
-.register-container {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
-  box-sizing: border-box;
-}
-
-input:required:invalid,
-input:focus:invalid {
-  border: 2px solid red;
-  background-color: #ffe6e6;
-}
-
-input:required:valid {
-  border: 2px solid green;
-  background-color: #e6ffe6;
-}
-
-input {
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-button {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-  width: 100%;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-.notice, .flash {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
-
-.register-container i {
-  font-size: 0.9em;
-  color: #555;
-}
-
-/* Media Queries for Responsive Design in Desktop screen */
-@media (min-width: 768px) {
-  body {
-    background-image: url("../images/site/checkerboard.jpg");
-    background-size: 200px 200px;
-    background-position: 0 0;
-    padding: 10px 50px;
-  }
-
-  #wrapper {
-    max-width: 1080px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border: 2px solid blue;
-    border-radius: 10px;
-  }
-
-  .hero h1 {
-    font-size: 3em;
-    width: 100%;
-  }
-
-  .text-hover {
-    position: absolute;
-    top: 150px;
-    left: 70px;
-    z-index: 1;
-  }
-
-  .feature-container {
-    color: blue;
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 5px;
-  }
-  .image-bg-delorean {
-    width: 70%;
-    height: auto;
-    display: block;
-    position: relative;
-    z-index: 0;
-  }
-  .feature-container h2 {
-    margin: 0;
-    font-size: 2em;
-  }
-  .feature-container ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 10px;
-  }
-  .feature-container ul li {
-    padding: 1px 0;
-    font-size: 1.8em;
-  }
-  .own-today-button {
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin: 20px 0 0 0;
-  }
-  .own-today-button img {
-    width: 80%;
-    margin-top: 20px;
-    height: auto;
-  }
-
-  .flex-container {
-    display: flex;
-    gap: 30px;
-    justify-content: space-between;
-  }
-
-  .upgrades-container {
-    flex: 0 0 45%;
-    order: 1;
-  }
-
-  .reviews-container {
-    flex: 0 0 50%;
-    order: 2;
-    width: 100%;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .upgrades-container > div {
-    max-width: 100%;
-  }
-
-  .reviews-container h2,
-  .upgrades-container h2 {
-    font-size: 2em;
-  }
-
-  .reviews-container ul li {
-    font-size: 1.4em;
-  }
-}
-
+/* ========================================
+   VEHICLE DETAIL STYLES
+   ======================================== */
 .vehicle-detail-container {
   display: flex;
   flex-direction: column;
@@ -454,14 +211,14 @@ button:hover {
   width: 100%;
   max-width: 600px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .vehicle-info {
   background-color: #f9f9f9;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .vehicle-info h2 {
@@ -477,6 +234,7 @@ button:hover {
   border-radius: 5px;
   font-size: 1.2em;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .vehicle-specs {
@@ -494,14 +252,384 @@ button:hover {
   line-height: 1.5;
 }
 
-/* Desktop layout */
-@media (min-width: 900px) {
+/* ========================================
+   ACCOUNT FORMS (LOGIN & REGISTER)
+   ======================================== */
+.center-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-container,
+.register-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Input Fields (Unified for all forms) */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border-color 0.3s, background-color 0.3s;
+  font-family: inherit;
+}
+
+/* Validacion Input States */
+input:required:invalid,
+input:focus:invalid,
+select:required:invalid,
+textarea:required:invalid {
+  border-color: #dc3545;
+  background-color: #ffe6e6;
+  outline: none;
+}
+
+input:required:valid,
+select:required:valid,
+textarea:required:valid {
+  border-color: #28a745;
+  background-color: #e6ffe6;
+}
+
+/* Password requirement info */
+.register-container i {
+  display: block;
+  font-size: 0.85em;
+  color: #555;
+  margin: 5px 0 10px;
+  text-align: left;
+}
+
+/* Optional: custom icons for register */
+.register-container input:required:invalid {
+  background-image: url('../images/invalid.png');
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+.register-container input:required:valid {
+  background-image: url('../images/valid.png');
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+/* ========================================
+   INVENTORY MANAGEMENT & GENERAL FORMS
+   ======================================== */
+
+.management-container {
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.management-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.management-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.management-links a {
+  display: block;
+  padding: 15px 25px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.management-links a:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Forms General Styling */
+fieldset {
+  border: 2px solid #ddd;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.3em;
+  padding: 0 10px;
+  color: #333;
+  background-color: white;
+}
+
+form label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+  font-size: 0.95em;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* Select Dropdown Styling */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+/* Submit Button Styles (Unificado) */
+.submit-btn,
+form input[type="submit"],
+.login-form button {
+  margin-top: 20px;
+  padding: 12px 30px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:hover,
+form input[type="submit"]:hover,
+.login-form button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.submit-btn:active,
+form input[type="submit"]:active,
+.login-form button:active {
+  background-color: #1e7e34;
+  transform: translateY(0);
+}
+
+/* ========================================
+   MESSAGES & NOTICES
+   ======================================== */
+
+.notice {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-left: 5px solid #ffc107;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 15px 0;
+  list-style-position: inside;
+}
+
+.notice li {
+  color: #856404;
+  margin: 5px 0;
+  font-weight: 500;
+  list-style-type: disc;
+}
+
+.flash,
+.success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-left: 5px solid #28a745;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 15px 0;
+  color: #155724;
+  font-weight: 500;
+}
+
+.field-error {
+  display: block;
+  color: #dc3545;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 0.9em;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  min-height: 20px;
+}
+
+.field-error:empty {
+  display: none;
+}
+
+/* ========================================
+   ACCESSIBILITY & UTILITIES
+   ======================================== */
+input::placeholder,
+textarea::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 3px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* ========================================
+   MEDIA QUERIES (DESKTOP)
+   ======================================== */
+@media (min-width: 768px) {
+  body {
+    background-image: url("../images/site/checkerboard.jpg");
+    background-size: 200px 200px;
+    background-position: 0 0;
+    padding: 10px 50px;
+  }
+
+  #wrapper {
+    max-width: 1080px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid #007bff;
+    border-radius: 10px;
+  }
+
+  /* HOME */
+  .hero h1 {
+    font-size: 3em;
+  }
+
+  .text-hover {
+    top: 150px;
+    left: 70px;
+  }
+
+  .feature-container h2 {
+    font-size: 2em;
+  }
+
+  .feature-container ul li {
+    font-size: 1.4em;
+  }
+
+  .image-bg-delorean {
+    width: 70%;
+  }
+
+  .own-today-button img {
+    width: 150px;
+  }
+
+  .flex-container {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
+  .upgrades-container {
+    flex: 1 1 45%;
+    order: 1;
+  }
+
+  .reviews-container {
+    flex: 1 1 50%;
+    order: 2;
+    padding-top: 20px;
+  }
+
+  .upgrades-container > div {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .reviews-container h2,
+  .upgrades-container h2 {
+    font-size: 1.8em;
+  }
+
+  .reviews-container ul li {
+    font-size: 1.1em;
+  }
+
+  /* VEHICLE DETAIL */
   .vehicle-detail-container {
     flex-direction: row;
     gap: 3rem;
   }
 
-  .vehicle-image, .vehicle-info {
+  .vehicle-image,
+  .vehicle-info {
     flex: 1;
   }
+  
+  /* MANAGEMENT */
+  .management-links {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .management-links li {
+    flex: 1;
+    max-width: 300px;
+  }
+}
+
+.validation-error {
+  color: #dc3545;
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
