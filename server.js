@@ -26,6 +26,7 @@ const bodyParser = require("body-parser")
  * Middleware for Static Files
  *************************/
 app.use(static);
+app.use(utilities.checkSsl); 
 
 /* ***********************
  * View Engine and Templates

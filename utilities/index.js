@@ -5,7 +5,7 @@ Util.getNav = async function () {
   const data = await invModel.getClassifications();
   let list = "<ul>";
   list += '<li><a href="/" title="Home page">Home</a></li>';
-  data.forEach(row => {
+  data.forEach((row) => {
     list += `<li><a href="/inv/type/${row.classification_id}" title="See our inventory of ${row.classification_name} vehicles">${row.classification_name}</a></li>`;
   });
   list += "</ul>";
@@ -16,14 +16,16 @@ Util.buildClassificationGrid = async function (data) {
   let grid = "";
   if (data.length > 0) {
     grid = '<ul id="inv-display">';
-    data.forEach(vehicle => {
-      grid += '<li>';
+    data.forEach((vehicle) => {
+      grid += "<li>";
       grid += `<a href="../../inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details"><img src="${vehicle.inv_thumbnail}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}"></a>`;
       grid += `<div class="namePrice"><hr><h2><a href="../../inv/detail/${vehicle.inv_id}">${vehicle.inv_make} ${vehicle.inv_model}</a></h2>`;
-      grid += `<span>$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</span></div>`;
-      grid += '</li>';
+      grid += `<span>$${new Intl.NumberFormat("en-US").format(
+        vehicle.inv_price
+      )}</span></div>`;
+      grid += "</li>";
     });
-    grid += '</ul>';
+    grid += "</ul>";
   } else {
     grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
@@ -31,10 +33,14 @@ Util.buildClassificationGrid = async function (data) {
 };
 
 Util.buildVehicleGrid = async function (data) {
-  if (!data || data.length === 0) return "<p class='notice'>Vehicle not found.</p>";
+  if (!data || data.length === 0)
+    return "<p class='notice'>Vehicle not found.</p>";
 
   const vehicle = data[0];
-  const price = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(vehicle.inv_price);
+  const price = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(vehicle.inv_price);
   const miles = new Intl.NumberFormat("en-US").format(vehicle.inv_miles);
 
   return `
@@ -89,6 +95,20 @@ Util.buildClassificationList = async function (classification_id = null) {
   });
   classificationList += "</select>";
   return classificationList;
+};
+
+/* ****************************************
+ * Middleware to check for SSL/TLS
+ **************************************** */
+Util.checkSsl = (req, res, next) => {
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.headers["x-forwarded-proto"] !== "https"
+  ) {
+    console.error(`Error at: "${req.originalUrl}": SSL/TLS required`);
+    return res.status(403).send("SSL/TLS required");
+  }
+  next();
 };
 
 Util.handleErrors = (fn) => (req, res, next) =>
