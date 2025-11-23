@@ -101,14 +101,16 @@ Util.buildClassificationList = async function (classification_id = null) {
  * Middleware to check for SSL/TLS
  **************************************** */
 Util.checkSsl = (req, res, next) => {
-  if (
-    process.env.NODE_ENV === "production" &&
-    req.headers["x-forwarded-proto"] !== "https"
-  ) {
-    console.error(`Error at: "${req.originalUrl}": SSL/TLS required`);
-    return res.status(403).send("SSL/TLS required");
-  }
-  next();
+    if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+        
+        // **CAMBIO AQUÍ:** Redireccionar a la URL HTTPS
+        console.error(`Redireccionando de HTTP a HTTPS: ${req.originalUrl}`);
+        
+        // Construye la URL HTTPS completa y redirige con un código 301 (Permanente)
+        const secureUrl = 'https://' + req.headers.host + req.url;
+        return res.redirect(301, secureUrl);
+    }
+    next();
 };
 
 Util.handleErrors = (fn) => (req, res, next) =>
