@@ -14,6 +14,7 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 // Default account management view
 router.get(
   "/",
+  utilities.checkLogin,
   utilities.handleErrors(accountController.buildAccountManagement)
 );
 
