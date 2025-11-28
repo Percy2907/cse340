@@ -12,6 +12,9 @@ router.get("/", utilities.handleErrors(invController.buildManagement));
 // Route to get inventory by classification_id as JSON
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
 
+// Route to build edit inventory view
+router.get("/edit/:inventory_id", utilities.handleErrors(invController.buildEditInventory));
+
 router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
 router.post(
   "/add-classification",
