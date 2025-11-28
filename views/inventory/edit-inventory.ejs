@@ -14,7 +14,7 @@
   </ul>
 <% } %>
 
-<form action="/inv/update" method="post">
+<form id="updateForm" action="/inv/update" method="post">
   <fieldset>
     <legend>Edit Vehicle Information</legend>
 
@@ -101,8 +101,11 @@
       required
     >
 
-    <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">
+    <button type="submit" disabled>Update Vehicle</button>
 
-    <button type="submit">Update Vehicle</button>
+    <input type="hidden" name="inv_id"
+    <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
   </fieldset>
 </form>
+
+<script src="/js/inv-update.js"></script>

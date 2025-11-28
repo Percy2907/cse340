@@ -31,4 +31,10 @@ router.post(
   utilities.handleErrors(invController.addInventory)
 );
 
+// Route to process inventory update
+router.post(
+  "/update/",
+  utilities.handleErrors(invController.updateInventory)
+);
+
 module.exports = router;
