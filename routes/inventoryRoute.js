@@ -9,6 +9,9 @@ router.get("/detail/:vehicleId", utilities.handleErrors(invController.retrieveVe
 
 router.get("/", utilities.handleErrors(invController.buildManagement));
 
+// Route to get inventory by classification_id as JSON
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+
 router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
 router.post(
   "/add-classification",
