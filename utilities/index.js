@@ -1,7 +1,7 @@
 const invModel = require("../models/inventory-model");
 const Util = {};
-const jwt = require("jsonwebtoken")
-require("dotenv").config()
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 Util.getNav = async function () {
   const data = await invModel.getClassifications();
@@ -47,23 +47,17 @@ Util.buildVehicleGrid = async function (data) {
 
   return `
   <section class="vehicle-detail-container">
-
     <div class="vehicle-image">
       <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}" />
     </div>
-
     <div class="vehicle-info">
       <h2>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
-
       <div class="price-box">
         <span>Price:</span>
         <strong>${price}</strong>
       </div>
-
       <p class="vehicle-miles"><strong>Mileage:</strong> ${miles} miles</p>
-
       <p class="vehicle-description">${vehicle.inv_description}</p>
-
       <ul class="vehicle-specs">
         <li><strong>Color:</strong> ${vehicle.inv_color}</li>
         <li><strong>Model:</strong> ${vehicle.inv_model}</li>
@@ -72,7 +66,6 @@ Util.buildVehicleGrid = async function (data) {
         <li><strong>Vehicle ID:</strong> ${vehicle.inv_id}</li>
       </ul>
     </div>
-
   </section>
   `;
 };
@@ -103,53 +96,70 @@ Util.buildClassificationList = async function (classification_id = null) {
  * Middleware to check for SSL/TLS
  **************************************** */
 Util.checkSsl = (req, res, next) => {
-    if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
-        
-        console.error(`Redireccionando de HTTP a HTTPS: ${req.originalUrl}`);
-        
-        const secureUrl = 'https://' + req.headers.host + req.url;
-        return res.redirect(301, secureUrl);
-    }
-    next();
+  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+    console.error(`Redireccionando de HTTP a HTTPS: ${req.originalUrl}`);
+    const secureUrl = 'https://' + req.headers.host + req.url;
+    return res.redirect(301, secureUrl);
+  }
+  next();
 };
 
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
-
 /* ****************************************
 * Middleware to check token validity
 **************************************** */
 Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-  jwt.verify(
-   req.cookies.jwt,
-   process.env.ACCESS_TOKEN_SECRET,
-   function (err, accountData) {
-    if (err) {
-     req.flash("Please log in")
-     res.clearCookie("jwt")
-     return res.redirect("/account/login")
-    }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
-    next()
-   })
- } else {
-  next()
- }
-}
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("Please log in");
+          res.clearCookie("jwt");
+          return res.redirect("/account/login");
+        }
+        res.locals.accountData = accountData;
+        res.locals.loggedin = 1;
+        next();
+      }
+    );
+  } else {
+    next();
+  }
+};
 
 /* ****************************************
- *  Check Login
+ *  Check Login - Verifies user is logged in
  * ************************************ */
- Util.checkLogin = (req, res, next) => {
+Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
-    next()
+    next();
   } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
   }
- }
+};
+
+/* ****************************************
+ *  Check Account Type (TASK 2)
+ *  Only allows Employee or Admin
+ * ************************************ */
+Util.checkAccountType = (req, res, next) => {
+  if (res.locals.loggedin) {
+    const accountType = res.locals.accountData.account_type;
+    if (accountType === "Employee" || accountType === "Admin") {
+      next();
+    } else {
+      req.flash("notice", "You do not have permission to access this resource.");
+      return res.redirect("/account/login");
+    }
+  } else {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
+  }
+};
 
 module.exports = Util;

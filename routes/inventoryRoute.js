@@ -7,45 +7,91 @@ const invValidate = require("../utilities/inventory-validation");
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
 router.get("/detail/:vehicleId", utilities.handleErrors(invController.retrieveVehicleById));
 
-router.get("/", utilities.handleErrors(invController.buildManagement));
+// ========================================
+// PROTECTED ROUTES (Employee/Admin only)
+// ========================================
 
-// Route to get inventory by classification_id as JSON
-router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+// Management view (requires Employee or Admin)
+router.get(
+  "/",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.buildManagement)
+);
 
-// Route to build edit inventory view
-router.get("/edit/:inventory_id", utilities.handleErrors(invController.buildEditInventory));
+// Get inventory by classification
+router.get(
+  "/getInventory/:classification_id",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.getInventoryJSON)
+);
 
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
+// ========================================
+// ADD CLASSIFICATION (Employee/Admin only)
+// ========================================
+
+router.get(
+  "/add-classification",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.buildAddClassification)
+);
+
 router.post(
   "/add-classification",
+  utilities.checkAccountType,
   invValidate.classificationRules(),
   invValidate.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
 );
 
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+// ========================================
+// ADD INVENTORY (Employee/Admin only)
+// ========================================
+
+router.get(
+  "/add-inventory",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.buildAddInventory)
+);
+
 router.post(
   "/add-inventory",
+  utilities.checkAccountType,
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 );
 
-// Route to process inventory update
+// ========================================
+// EDIT INVENTORY (Employee/Admin only)
+// ========================================
+
+router.get(
+  "/edit/:inventory_id",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.buildEditInventory)
+);
+
 router.post(
   "/update/",
+  utilities.checkAccountType,
+  invValidate.inventoryRules(),
+  invValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
 );
 
-// Route to build delete confirmation view
+// ========================================
+// DELETE INVENTORY (Employee/Admin only)
+// ========================================
+
 router.get(
   "/delete/:inv_id",
+  utilities.checkAccountType,
   utilities.handleErrors(invController.buildDeleteConfirmation)
 );
 
-// Route to process delete
 router.post(
   "/delete",
+  utilities.checkAccountType,
   utilities.handleErrors(invController.deleteInventoryItem)
 );
 

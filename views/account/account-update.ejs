@@ -1,0 +1,101 @@
+<main class="center-page">
+  <section class="register-container">
+    <h1><%= title %></h1>
+
+    <!-- Flash messages -->
+    <%- messages() %>
+
+    <!-- Display validation errors -->
+    <% if (errors) { %>
+      <ul class="notice">
+        <% errors.array().forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <!-- =============================
+          UPDATE ACCOUNT INFORMATION
+         ============================= -->
+    <form id="updateAccountForm" action="/account/update" method="post">
+      <fieldset>
+        <legend>Update Account Information</legend>
+
+        <label for="account_firstname">First Name:</label>
+        <input 
+          type="text" 
+          name="account_firstname" 
+          id="account_firstname" 
+          required 
+          value="<%= locals.account_firstname %>"
+        >
+
+        <label for="account_lastname">Last Name:</label>
+        <input 
+          type="text" 
+          name="account_lastname" 
+          id="account_lastname" 
+          required 
+          value="<%= locals.account_lastname %>"
+        >
+
+        <label for="account_email">Email Address:</label>
+        <input 
+          type="email" 
+          name="account_email" 
+          id="account_email" 
+          required 
+          value="<%= locals.account_email %>"
+        >
+
+        <!-- Hidden field with account_id -->
+        <input type="hidden" name="account_id" value="<%= locals.account_id %>">
+
+        <button type="submit">Update Account</button>
+      </fieldset>
+    </form>
+
+    <!-- =================
+         CHANGE PASSWORD
+         ================= -->
+    <form id="changePasswordForm" action="/account/update-password" method="post">
+      <fieldset>
+        <legend>Change Password</legend>
+
+        <p><i>Passwords must be minimum of 12 characters and include: 1 uppercase letter, 1 number and 1 special character.</i></p>
+
+        <label for="account_password">New Password:</label>
+        <input 
+          type="password" 
+          name="account_password" 
+          id="account_password" 
+          required
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+        >
+
+        <div id="pswdBtn" style="cursor: pointer;">Show Password</div>
+
+        <!-- Hidden field with account_id -->
+        <input type="hidden" name="account_id" value="<%= locals.account_id %>">
+
+        <button type="submit">Change Password</button>
+      </fieldset>
+    </form>
+  </section>
+</main>
+
+<script>
+  // Show/Hide password toggle
+  const pswdBtn = document.getElementById('pswdBtn');
+  const passwordInput = document.getElementById('account_password');
+
+  pswdBtn.addEventListener('click', () => {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      pswdBtn.textContent = 'Hide Password';
+    } else {
+      passwordInput.type = 'password';
+      pswdBtn.textContent = 'Show Password';
+    }
+  });
+</script>
