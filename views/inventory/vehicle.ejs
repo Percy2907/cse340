@@ -2,3 +2,280 @@
 <% } else { res.redirect('/'); } %>
 
 <%- grid %>
+
+<!-- Reviews Section -->
+<section class="vehicle-reviews">
+  <div class="reviews-header">
+    <h2>Customer Reviews</h2>
+    
+    <% if (reviewCount > 0) { %>
+      <div class="average-rating">
+        <div class="rating-stars">
+          <% for(let i = 1; i <= 5; i++) { %>
+            <span class="<%= i <= Math.round(avgRating) ? 'star-filled' : 'star-empty' %>">★</span>
+          <% } %>
+        </div>
+        <span class="rating-text"><%= parseFloat(avgRating).toFixed(1) %> out of 5</span>
+        <span class="review-count">(<%= reviewCount %> <%= reviewCount === 1 ? 'review' : 'reviews' %>)</span>
+      </div>
+    <% } else { %>
+      <p class="no-rating">No reviews yet. Be the first to review this vehicle!</p>
+    <% } %>
+  </div>
+
+  <!-- Add Review Button (only for logged in users) -->
+  <% if (locals.loggedin) { %>
+    <div class="review-action">
+      <% if (userReviewId) { %>
+        <a href="/review/edit/<%= userReviewId %>" class="btn-primary">Edit Your Review</a>
+      <% } else { %>
+        <a href="/review/add/<%= inv_id %>" class="btn-primary">Write a Review</a>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="review-action">
+      <p class="login-prompt">
+        <a href="/account/login">Log in</a> to write a review
+      </p>
+    </div>
+  <% } %>
+
+  <!-- Display Reviews -->
+  <% if (reviews && reviews.length > 0) { %>
+    <div class="reviews-list">
+      <% reviews.forEach(review => { %>
+        <div class="review-item">
+          <div class="review-header-item">
+            <div class="reviewer-info">
+              <strong><%= review.account_firstname %> <%= review.account_lastname.charAt(0) %>.</strong>
+              <span class="review-date">
+                <%= new Date(review.review_date).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                }) %>
+              </span>
+            </div>
+            <div class="review-rating-small">
+              <% for(let i = 1; i <= 5; i++) { %>
+                <span class="<%= i <= review.review_rating ? 'star-filled' : 'star-empty' %>">★</span>
+              <% } %>
+            </div>
+          </div>
+          <div class="review-text-content">
+            <p><%= review.review_text %></p>
+          </div>
+          
+          <!-- Show edit/delete buttons only for the review owner -->
+          <% if (locals.loggedin && locals.accountData.account_id === review.account_id) { %>
+            <div class="review-owner-actions">
+              <a href="/review/edit/<%= review.review_id %>" class="btn-edit-small">Edit</a>
+              <a href="/review/delete/<%= review.review_id %>" class="btn-delete-small">Delete</a>
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="no-reviews-msg">
+      <p>No reviews yet for this vehicle.</p>
+    </div>
+  <% } %>
+</section>
+
+<style>
+.vehicle-reviews {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.reviews-header {
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.reviews-header h2 {
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.average-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rating-stars {
+  font-size: 1.5em;
+}
+
+.star-filled {
+  color: #ffc107;
+}
+
+.star-empty {
+  color: #ddd;
+}
+
+.rating-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+}
+
+.review-count {
+  color: #666;
+}
+
+.no-rating {
+  color: #666;
+  font-style: italic;
+  margin: 0;
+}
+
+.review-action {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.login-prompt {
+  color: #666;
+}
+
+.login-prompt a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.review-item {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.review-header-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.reviewer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reviewer-info strong {
+  font-size: 1.1em;
+  color: #333;
+}
+
+.review-date {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.review-rating-small {
+  font-size: 1.2em;
+}
+
+.review-text-content {
+  margin: 15px 0;
+  line-height: 1.6;
+  color: #444;
+}
+
+.review-text-content p {
+  margin: 0;
+}
+
+.review-owner-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.btn-edit-small,
+.btn-delete-small {
+  padding: 6px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-edit-small {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-edit-small:hover {
+  background-color: #218838;
+}
+
+.btn-delete-small {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete-small:hover {
+  background-color: #c82333;
+}
+
+.no-reviews-msg {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  .review-header-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .review-owner-actions {
+    flex-direction: column;
+  }
+}
+</style>

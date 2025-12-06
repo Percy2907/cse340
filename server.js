@@ -77,6 +77,7 @@ app.use("/inv", inventoryRoute);
 app.use ("/account", require("./routes/accountRoute"))
 
 
+app.use("/review", require("./routes/reviewRoute"))
 // Error route for intentional 500
 app.use("/error", errorRoute); 
 

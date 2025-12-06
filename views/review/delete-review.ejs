@@ -1,0 +1,120 @@
+<main class="review-page">
+  <h1><%= title %></h1>
+
+  <%- messages() %>
+
+  <div class="review-info delete-warning">
+    <p>
+      <strong>Warning:</strong> You are about to delete your review for the
+      <strong><%= vehicleName %></strong>
+    </p>
+    <p>This action cannot be undone.</p>
+  </div>
+
+  <form id="deleteReviewForm" action="/review/delete" method="post">
+    <fieldset>
+      <legend>Review Details</legend>
+
+      <div class="review-display">
+        <div class="rating-display">
+          <strong>Your Rating:</strong>
+          <span class="stars">
+            <% for(let i = 1; i <= 5; i++) { %>
+            <span
+              class="<%= i <= review_rating ? 'star-filled' : 'star-empty' %>"
+              >★</span
+            >
+            <% } %>
+          </span>
+          (<%= review_rating %>/5)
+        </div>
+
+        <div class="review-text-display">
+          <strong>Your Review:</strong>
+          <p><%= review_text %></p>
+        </div>
+      </div>
+
+      <input type="hidden" name="review_id" value="<%= review_id %>" />
+      <input type="hidden" name="inv_id" value="<%= inv_id %>" />
+
+      <button type="submit" class="delete-btn">Confirm Delete</button>
+      <a href="/inv/detail/<%= inv_id %>" class="cancel-btn">Cancel</a>
+    </fieldset>
+  </form>
+</main>
+
+<style>
+  .review-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .delete-warning {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    color: #721c24;
+  }
+  .review-display {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  .rating-display {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+  }
+  .stars {
+    font-size: 1.3em;
+    margin-left: 10px;
+  }
+  .star-filled {
+    color: #ffc107;
+  }
+  .star-empty {
+    color: #ddd;
+  }
+  .review-text-display {
+    margin-top: 15px;
+  }
+  .review-text-display p {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+  .delete-btn {
+    background-color: #dc3545;
+    margin-top: 20px;
+    padding: 12px 30px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+  .cancel-btn {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 12px 30px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  .cancel-btn:hover {
+    background-color: #5a6268;
+  }
+</style>

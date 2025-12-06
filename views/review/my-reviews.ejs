@@ -1,0 +1,202 @@
+<main class="my-reviews-page">
+  <h1><%= title %></h1>
+
+  <%- messages() %>
+
+  <% if (reviews && reviews.length > 0) { %>
+    <div class="reviews-list">
+      <% reviews.forEach(review => { %>
+        <div class="review-card">
+          <div class="review-header">
+            <h3>
+              <a href="/inv/detail/<%= review.inv_id %>">
+                <%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %>
+              </a>
+            </h3>
+            <div class="review-rating">
+              <% for(let i = 1; i <= 5; i++) { %>
+                <span class="<%= i <= review.review_rating ? 'star-filled' : 'star-empty' %>">★</span>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="review-date">
+            Posted on <%= new Date(review.review_date).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            }) %>
+          </div>
+
+          <div class="review-text">
+            <p><%= review.review_text %></p>
+          </div>
+
+          <div class="review-actions">
+            <a href="/review/edit/<%= review.review_id %>" class="edit-btn">Edit</a>
+            <a href="/review/delete/<%= review.review_id %>" class="delete-btn">Delete</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="no-reviews">
+      <p>You haven't written any reviews yet.</p>
+      <p><a href="/">Browse vehicles</a> to start reviewing!</p>
+    </div>
+  <% } %>
+</main>
+
+<style>
+.my-reviews-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s;
+}
+
+.review-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.review-header h3 {
+  margin: 0;
+  font-size: 1.3em;
+}
+
+.review-header h3 a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.review-header h3 a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.review-rating {
+  font-size: 1.2em;
+}
+
+.star-filled {
+  color: #ffc107;
+}
+
+.star-empty {
+  color: #ddd;
+}
+
+.review-date {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.review-text {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.review-text p {
+  margin: 0;
+}
+
+.review-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+  font-size: 0.9em;
+}
+
+.edit-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.no-reviews {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.no-reviews p {
+  font-size: 1.1em;
+  margin: 15px 0;
+}
+
+.no-reviews a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.no-reviews a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .review-actions {
+    flex-direction: column;
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    text-align: center;
+  }
+}
+</style>

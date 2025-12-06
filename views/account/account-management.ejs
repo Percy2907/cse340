@@ -16,6 +16,12 @@
       Update Account Information
     </a>
   </p>
+  <!-- My Reviews Link -->
+  <p>
+    <a href="/review/my-reviews" title="View and manage your reviews">
+      My Reviews
+    </a>
+  </p>
 
   <!-- Inventory Management (only for Employee or Admin) -->
   <% if (locals.accountData && (locals.accountData.account_type === 'Employee' || locals.accountData.account_type === 'Admin')) { %>
